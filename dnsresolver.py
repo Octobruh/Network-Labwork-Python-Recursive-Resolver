@@ -52,11 +52,9 @@ def resolve(domain, qtype=dns.rdatatype.A):
 
             # 1. Check ANSWER
             """
-            If the answer type matches what we asked for (qtype), it prints the query path 
-            and returns the answer, ending the loop.
-            If the answer is a CNAME (a nickname for another domain), the resolver must 
-            start the whole process over again for the new domain name. It does this by calling 
-            itself recursively: return resolve(cname, qtype).
+            If the answer type matches what we asked for (qtype), it prints the query path and returns the answer, ending the loop.
+            If the answer is a CNAME (a nickname for another domain), the resolver must start the whole process over again for the 
+            new domain name. It does this by calling itself recursively: return resolve(cname, qtype).
             """
             if response.answer:
                 for ans in response.answer:
@@ -71,9 +69,9 @@ def resolve(domain, qtype=dns.rdatatype.A):
 
             # 2. Check ADDITIONAL (gives us IPs of NS)
             """
-            If there was no final answer, the server is referring us to other nameservers.
-            Often, to be helpful, the server will provide the IP addresses (A records) of those 
-            next-level nameservers in the "additional" section, these are called glue records.
+            If there was no final answer, the server is referring us to other nameservers. 
+            Often, to be helpful, the server will provide the IP addresses (A records) of those next-level nameservers in the 
+            "additional" section, these are called glue records.
             This code extracts those IP addresses, sets them as the nameservers for the next iteration 
             of the loop, and uses continue to start the loop again, querying these new servers.
             """
@@ -112,8 +110,8 @@ def resolve(domain, qtype=dns.rdatatype.A):
                 nameservers = new_ns
                 continue
             """
-            If a query to a server times out or fails for another reason, the script prints an error, 
-            removes the failed server from the list, and the while loop continues, trying another server from the list.
+            If a query to a server times out or fails for another reason, the script prints an error, removes the failed server from the list, 
+            and the while loop continues, trying another server from the list.
             """
         except dns.exception.Timeout:
             print(f"Timeout querying {ns}, trying another...")
